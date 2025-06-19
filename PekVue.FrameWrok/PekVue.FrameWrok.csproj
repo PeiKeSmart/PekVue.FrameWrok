@@ -2,9 +2,9 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <RootNamespace>Pek.WAF</RootNamespace>
-    <AssemblyTitle>WAF防火墙</AssemblyTitle>
-    <Description>基于DH框架的Kestrel Web 服务器的基本 WAF库，来源于https://github.com/mguinness/KestrelWAF</Description>
+    <RootNamespace>PekVue.FrameWrok</RootNamespace>
+    <AssemblyTitle>Vue和Pek.NCube的开发框架</AssemblyTitle>
+    <Description>基于Vue和Pek.NCube的开发框架。后端为.Net Core框架</Description>
     <Company>湖北登灏科技有限公司</Company>
     <Copyright>©2020-2025 湖北登灏科技有限公司</Copyright>
     <VersionPrefix>4.12</VersionPrefix>
