@@ -13,7 +13,7 @@ namespace PekVue.FrameWrok;
 /// <summary>
 /// 表示应用程序启动时配置服务和中间件的对象
 /// </summary>
-public class CubeStartup : IPekStartup
+public class DHStartup : IPekStartup
 {
     /// <summary>
     /// 配置添加的中间件的使用
@@ -87,7 +87,7 @@ public class CubeStartup : IPekStartup
     /// <param name="options"></param>
     public void ConfigureVirtualFileSystem(DHVirtualFileSystemOptions options)
     {
-        options.FileSets.AddEmbedded<CubeStartup>(typeof(CubeStartup).Namespace);
+        options.FileSets.AddEmbedded<DHStartup>(typeof(DHStartup).Namespace);
         // options.FileSets.Add(new EmbeddedFileSet(item.Assembly, item.Namespace));
     }
 
