@@ -1,3 +1,3 @@
-﻿# Pek.WAF - WAF防火墙
+﻿# PekVue.FrameWrok - Vue和Pek.NCube的开发框架
 
-基于DH框架的Kestrel Web 服务器的基本 WAF库
+基于Vue和Pek.NCube的开发框架。后端为.Net Core框架
