@@ -1,8 +1,12 @@
 ﻿using DH.Entity;
 
+using Microsoft.AspNetCore.ResponseCompression;
+
 using NewLife;
 using NewLife.Common;
+using NewLife.Log;
 
+using Pek.Compression;
 using Pek.Infrastructure;
 using Pek.VirtualFileSystem;
 
@@ -53,6 +57,10 @@ public class DHStartup : IPekStartup
                 modelDetail.Insert();
             }
         }
+
+        // 启用响应压缩中间件
+        application.UseResponseCompression();
+        XTrace.WriteLine($"启用响应压缩中间件");
     }
 
     /// <summary>
@@ -71,6 +79,36 @@ public class DHStartup : IPekStartup
     /// <param name="webHostEnvironment"></param>
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
+        // 启用接口响应压缩
+        services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;  // 启用 HTTPS 响应压缩
+
+            options.Providers.Add<BrowserCompatibleCompressionProvider>(); // 添加自定义提供程序选择器
+
+            // 添加自定义提供程序选择器
+            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                ["application/json", "application/xml", "text/plain", "text/css", "application/javascript"]);
+
+            //options.Providers.Add<GzipCompressionProvider>();  // 首先添加Gzip (更兼容)
+            //options.Providers.Add<BrotliCompressionProvider>();  // 然后添加Brotli (性能更好但兼容性较差)
+
+            options.ExcludedMimeTypes = ["image/jpeg", "image/png", "application/octet-stream"];
+        });
+        // 降低Brotli压缩级别以提高兼容性
+        services.Configure<BrotliCompressionProviderOptions>(options =>
+        {
+            options.Level = System.IO.Compression.CompressionLevel.Fastest;
+        });
+        // 同样降低Gzip的压缩级别
+        services.Configure<GzipCompressionProviderOptions>(options =>
+        {
+            options.Level = System.IO.Compression.CompressionLevel.Fastest;
+        });
+
+        // 启用接口响应压缩
+        services.AddSingleton<BrotliCompressionProvider>();
+        services.AddSingleton<GzipCompressionProvider>();
     }
 
     /// <summary>
@@ -145,7 +183,7 @@ public class DHStartup : IPekStartup
     /// <summary>
     /// 获取此启动配置实现的顺序
     /// </summary>
-    public Int32 StartupOrder => 101; //常见服务应在错误处理程序之后加载
+    public Int32 StartupOrder => 1; //常见服务应在错误处理程序之后加载
 
     /// <summary>
     /// 获取此启动配置实现的顺序。主要针对ConfigureMiddleware、UseRouting前执行的数据、UseAuthentication或者UseAuthorization后面 Endpoints前执行的数据
