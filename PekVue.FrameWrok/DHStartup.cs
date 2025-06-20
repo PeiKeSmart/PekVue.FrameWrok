@@ -6,7 +6,6 @@ using NewLife;
 using NewLife.Common;
 using NewLife.Log;
 
-using Pek.Compression;
 using Pek.Infrastructure;
 using Pek.VirtualFileSystem;
 
