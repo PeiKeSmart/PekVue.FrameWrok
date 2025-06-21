@@ -92,10 +92,10 @@ public class DHStartup : IPekStartup
             // 配置要压缩的 MIME 类型。
             // 包括常见的文本和数据格式。
             options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                new[] { "application/json", "application/xml", "text/plain", "text/css", "application/javascript" });
+                ["application/json", "application/xml", "text/plain", "text/css", "application/javascript"]);
 
             // 排除已压缩或二进制格式。
-            options.ExcludedMimeTypes = new[] { "image/jpeg", "image/png", "application/octet-stream" };
+            options.ExcludedMimeTypes = ["image/jpeg", "image/png", "application/octet-stream"];
         });
 
         // 配置 Brotli 提供程序的压缩级别。
