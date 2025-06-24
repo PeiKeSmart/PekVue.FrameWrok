@@ -1,10 +1,7 @@
 ﻿using DH.Entity;
 
-using Microsoft.AspNetCore.ResponseCompression;
-
 using NewLife;
 using NewLife.Common;
-using NewLife.Log;
 
 using Pek.Infrastructure;
 using Pek.VirtualFileSystem;
@@ -56,10 +53,6 @@ public class DHStartup : IPekStartup
                 modelDetail.Insert();
             }
         }
-
-        // 启用响应压缩中间件
-        application.UseResponseCompression();
-        XTrace.WriteLine($"启用响应压缩中间件");
     }
 
     /// <summary>
@@ -78,38 +71,7 @@ public class DHStartup : IPekStartup
     /// <param name="webHostEnvironment"></param>
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
     {
-        // 启用接口响应压缩
-        services.AddResponseCompression(options =>
-        {
-            options.EnableForHttps = true;  // 启用 HTTPS 响应压缩
 
-            // 添加 Brotli 和 Gzip 提供程序。
-            // ASP.NET Core 会根据客户端的 Accept-Encoding 标头自动选择最佳提供程序。
-            // Brotli 通常是首选，因为它提供更好的压缩率。
-            options.Providers.Add<BrotliCompressionProvider>();
-            options.Providers.Add<GzipCompressionProvider>();
-
-            // 配置要压缩的 MIME 类型。
-            // 包括常见的文本和数据格式。
-            options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                ["application/json", "application/xml", "text/plain", "text/css", "application/javascript"]);
-
-            // 排除已压缩或二进制格式。
-            options.ExcludedMimeTypes = ["image/jpeg", "image/png", "application/octet-stream"];
-        });
-
-        // 配置 Brotli 提供程序的压缩级别。
-        // 'Fastest' 级别可减少 CPU 负载，但压缩率略低，适用于需要快速响应的场景。
-        services.Configure<BrotliCompressionProviderOptions>(options =>
-        {
-            options.Level = System.IO.Compression.CompressionLevel.Fastest;
-        });
-
-        // 配置 Gzip 提供程序的压缩级别。
-        services.Configure<GzipCompressionProviderOptions>(options =>
-        {
-            options.Level = System.IO.Compression.CompressionLevel.Fastest;
-        });
     }
 
     /// <summary>
