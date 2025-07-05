@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <RootNamespace>PekVue.FrameWrok</RootNamespace>
     <AssemblyTitle>Vue和Pek.NCube的开发框架</AssemblyTitle>
@@ -51,8 +51,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Pek.Common" Version="4.12.2025.626-beta1317" />
-    <PackageReference Include="Pek.NCube.Api" Version="4.12.2025.630-beta1122" />
+    <PackageReference Include="Pek.NCube.Api" Version="4.13.2025.705-beta0819" />
   </ItemGroup>
 
   <ItemGroup>
